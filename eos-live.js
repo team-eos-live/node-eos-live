@@ -35,13 +35,13 @@ const p_post = promisify(request.post);
 
 const default_api_endpoints = ["https://api.eossweden.se", "https://api.eosdublin.io", "http://api.hkeos.com", "https://api.eosnewyork.io", 'https://node1.zbeos.com',
     "https://node2.eosphere.io", "http://peer2.eoshuobipool.com:8181",
-    "http://mainnet.eoscalgary.io:80", "https://node2.liquideos.com:8883", "https://node1.eosphere.io", "https://nodes.eos42.io", "https://api.eoslaomao.com", "http://eos-bp.bitfinex.com:8888",
+    "http://mainnet.eoscalgary.io:80", "https://node2.liquideos.com:8883", "https://nodes.eos42.io", "https://api.eoslaomao.com", "http://eos-bp.bitfinex.com:8888",
     "https://mainnet.libertyblock.io:7777", "https://api.jeda.one", "http://peer1.eoshuobipool.com:8181", "https://mainnet.eoscannon.io", "https://node.eosflare.io",
     "https://api.eosgeneva.io", "https://api1.eosasia.one", "https://api.bitmars.one", "https://mainnet1.eoscochain.io", "https://publicapi-mainnet.eosauthority.com",
     "http://api-mainnet.starteos.io", "http://api-mainnet1.starteos.io", "https://eos.unlimitedeos.com:9999", "http://api.eostribe.io", "https://api.eosstore.co", "http://api.bp.antpool.com",
     "https://mainnet.meet.one", "https://eosapi.nodepacific.com", "https://api.cypherglass.com", "https://api.eosargentina.io", "https://mars.fn.eosbixin.com", "https://eu.eosdac.io",
-    "https://api.eosrio.io", "https://api.eosbeijing.one", "http://peer1.eoshuobipool.com:8181", "https://api.eostitan.com", "https://rpc.eosys.io",
-    "https://api.oraclechain.io", "http://api.eos.wiki:38888", "https://mainnet.genereos.io", "https://node1.eosphere.io", "https://api.main.alohaeos.com", "https://api.proxy1a.sheos.org",
+    "https://api.eosrio.io", "https://api.eosbeijing.one", "https://api.eostitan.com", "https://rpc.eosys.io",
+    "https://api.oraclechain.io", "http://api.eos.wiki:38888", "https://mainnet.genereos.io", "https://node1.eosphere.io", "https://api.proxy1a.sheos.org",
     "https://bp.eosvolga.one", "https://api.main.alohaeos.com", "https://eosapi.blockmatrix.network", "https://api.eosdetroit.io", "https://bp.eosnigeria.io:8899", "http://bp.eos.vote:8888",
     "http://api.mainnet.eos.eosgermany.online:8888"
 ];
@@ -1566,18 +1566,12 @@ class EOS_Live extends Evented_Class {
             if (this.performance_mode === 'low') {
                 num_parallel_attempts = 4;
             }
-
             let llns = this.lowest_latency_nodes(num_parallel_attempts);
-            console.log('llns', llns);
+            //console.log('llns', llns);
             return raceToSuccess(llns.map(enode => enode.block(i_num)));
 
-
             //let lati = this.latency_info;
-
             //console.log('lati', lati);
-
-
-
 
 
 
