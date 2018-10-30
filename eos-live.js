@@ -101,7 +101,7 @@ class EOS_Live_Node extends Evented_Class {
         //console.log('1) this.last_block_info_num', this.last_block_info_num);
         this._pending_blocks = {};
 
-        prop(this, 'timeout', 4000);
+        prop(this, 'timeout', 2000);
         prop(this, 'chain_head_block_num', -1);
 
         // Connect to single EOS node?
@@ -652,10 +652,8 @@ class EOS_Live_Node extends Evented_Class {
 
                 } catch (err) {
 
-
                     //console.log('err', err);
                 }
-
 
                 // then on interval, get that latest one
 
@@ -745,6 +743,18 @@ class EOS_Live extends Evented_Class {
         // worst_connections
         // broken_connections
         // banned_connections
+
+
+        // this.performance_mode = 'low' / 'high'
+        //  eos live node timeout   4000   2000
+        //  
+
+
+
+        // low performance
+        //  only 4 to 9 nodes within speed criteria
+
+
 
         /*
 
@@ -1138,10 +1148,32 @@ class EOS_Live extends Evented_Class {
                 let fastest_connections = fastest_endpoints.map(x => this.map_connections_by_endpoints[x]);
                 console.log('fastest_connections.length', fastest_connections.length);
 
-                if (fastest_connections.length < 5) {
-                    throw 'Requires at least 5 medium or low latency connections. Currently available: ' + fastest_connections.length;
+
+                if (fastest_connections.length < 4) {
+                    //this.performance_mode = 'low'
+                    throw 'Requires at least 4 medium or low latency connections. Currently available: ' + fastest_connections.length;
+
+                } else if (fastest_connections.length < 10) {
+
+                    this.performance_mode = 'low';
+
+                    each(this.connections, conn => {
+                        conn.timeout = 4000;
+                    })
+
+
                 } else {
-                    this.fastest_connections = fastest_connections;
+                    this.performance_mode = 'high';
+                }
+
+
+                let ms_poll_staggering = 25;
+                if (this.performance_mode === 'low') {
+                    ms_poll_staggering = 125;
+                }
+
+                
+                this.fastest_connections = fastest_connections;
                     let latest_head_block_num = -1;
                     let prev_head_block_num = -1;
 
@@ -1208,14 +1240,11 @@ class EOS_Live extends Evented_Class {
                                 }
                                 if (prev_head_block_num > -1) {
                                     // diff
-
                                 }
                             })
-                        }, i * 125);
+                        }, i * ms_poll_staggering);
                         // and then start polling based on that latest block number
                     });
-                }
-                // 
             }
             using_fastest_endpoints();
             return [];
@@ -1533,8 +1562,12 @@ class EOS_Live extends Evented_Class {
                 );
             }
 
+            let num_parallel_attempts = 10;
+            if (this.performance_mode === 'low') {
+                num_parallel_attempts = 4;
+            }
 
-            let llns = this.lowest_latency_nodes(4);
+            let llns = this.lowest_latency_nodes(num_parallel_attempts);
             console.log('llns', llns);
             return raceToSuccess(llns.map(enode => enode.block(i_num)));
 
