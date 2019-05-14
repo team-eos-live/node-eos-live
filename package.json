@@ -1,0 +1,36 @@
+{
+  "name": "eos-live",
+  "main": "eos-live.js",
+  "license": "MIT",
+  "dependencies": {
+    "circular-buffer": "^1.0.2",
+    "fnl": "^0.0.8",
+    "lang-mini": "^0.0.8",
+    "obext": "^0.0.4",
+    "request": "^2.88.0"
+  },
+  "commentDependencies": {
+    "discover-data-sources": "0.0.1"
+  },
+  "engines": {
+    "node": ">=9.0.0"
+  },
+  "description": "Easily get up-to-date information from the EOS blockchain. Does not require running your own EOS node.",
+  "author": "James Vickers <james@metabench.com>",
+  "contributors": [
+    {
+      "name": "John Hodler",
+      "email": "longjohnhodler@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/team-eos-live/node-eos-live"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --colors"
+  },
+  "version": "0.0.3"
+}
